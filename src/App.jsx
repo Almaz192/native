@@ -1,6 +1,6 @@
 import { ProductCard } from "./components/ProductCard";
 import { useEffect, useState } from "react";
-
+import "./index.css"
 
 function App() {
   const [loading,setLoading]=useState([true]) 
@@ -14,7 +14,7 @@ function App() {
   },[])
 
   return (
-    <div>
+    <div className="allCards">
     {loading && <div>loading..</div>}
     {
     products.map((product) => (<ProductCard data={product}/>))
