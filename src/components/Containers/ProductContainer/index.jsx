@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { ProductCard } from "./components/ProductCard";
-import { Filter } from "./components/Filter";
+import { ProductCard } from "../../components/ProductCard";
+import { Filter } from "../../components/Filter";
 import "./index.css";
 
-function App() {
+export function ProductContainer() {
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -13,7 +13,7 @@ function App() {
             .then((res) => res.json())
             .then((json) => {
                 setProducts(json);
-                setFilteredProducts(json);
+                setFilteredProducts(json); // Set initial products
             })
             .finally(() => setLoading(false));
     }, []);
@@ -32,7 +32,7 @@ function App() {
         <div className="container">
             <Filter onFilter={filterProducts} />
             {loading ? (
-                <div className="spinner"></div>
+                <div className="spinner">Loading...</div>
             ) : (
                 <div className="allCards">
                     {filteredProducts.map((product) => (
@@ -43,5 +43,3 @@ function App() {
         </div>
     );
 }
-
-export default App;
