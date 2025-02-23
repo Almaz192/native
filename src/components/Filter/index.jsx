@@ -1,16 +1,14 @@
 import "./index.css";
 
-export function Filter(props) {
-    const { onFilter } = props;
-
+export function Filter({ onFilter }) {
     return (
         <div className="filter-buttons">
             <button onClick={() => onFilter("All")}>All</button>
             <button onClick={() => onFilter("men's clothing")}>
-                Men’s Clothing
+                Men's Clothing
             </button>
             <button onClick={() => onFilter("women's clothing")}>
-                Women’s Clothing
+                Women's Clothing
             </button>
             <button onClick={() => onFilter("electronics")}>Electronics</button>
             <button onClick={() => onFilter("jewelery")}>Jewelery</button>

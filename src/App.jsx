@@ -1,46 +1,42 @@
 import { useState, useEffect } from "react";
-import { ProductCard } from "./components/ProductCard";
-import { Filter } from "./components/Filter";
+import { CartProvider } from "./context/CartContext";
+import { ProductContainer } from "./containers/ProductContainer";
+import { Cart } from "./components/Cart";
 import "./index.css";
 
 function App() {
-    const [loading, setLoading] = useState(true);
-    const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [isCartOpen, setIsCartOpen] = useState(false);
 
     useEffect(() => {
-        fetch("https://fakestoreapi.com/products")
-            .then((res) => res.json())
-            .then((json) => {
-                setProducts(json);
-                setFilteredProducts(json);
-            })
-            .finally(() => setLoading(false));
-    }, []);
-
-    const filterProducts = (category) => {
-        if (category === "All") {
-            setFilteredProducts(products);
-        } else {
-            setFilteredProducts(
-                products.filter((product) => product.category === category)
-            );
-        }
-    };
+        document.body.style.overflow = isCartOpen ? "hidden" : "auto";
+    }, [isCartOpen]);
 
     return (
-        <div className="container">
-            <Filter onFilter={filterProducts} />
-            {loading ? (
-                <div className="spinner"></div>
-            ) : (
-                <div className="allCards">
-                    {filteredProducts.map((product) => (
-                        <ProductCard data={product} key={product.id} />
-                    ))}
-                </div>
+        <CartProvider>
+            <div className="app-layout">
+                <ProductContainer openCart={() => setIsCartOpen(true)} />
+            </div>
+
+            {isCartOpen && (
+                <>
+                    <div
+                        className="cart-overlay"
+                        onClick={() => setIsCartOpen(false)}
+                    />
+
+                    <div className="cart-drawer">
+                        <button
+                            className="close-btn"
+                            onClick={() => setIsCartOpen(false)}
+                        >
+                            ✖
+                        </button>
+                        <h1>Cart</h1>
+                        <Cart />
+                    </div>
+                </>
             )}
-        </div>
+        </CartProvider>
     );
 }
 

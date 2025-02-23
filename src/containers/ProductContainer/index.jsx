@@ -1,19 +1,25 @@
-import { useState, useEffect } from "react";
-import { ProductCard } from "../../components/ProductCard";
+import { useState, useEffect, useContext } from "react";
 import { Filter } from "../../components/Filter";
+import { ProductCard } from "../../components/ProductCard";
+import { CartContext } from "../../context/CartContext";
 import "./index.css";
 
-export function ProductContainer() {
+export function ProductContainer({ openCart }) {
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const { cartItems } = useContext(CartContext);
+    const totalQuantity = cartItems.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+    );
 
     useEffect(() => {
         fetch("https://fakestoreapi.com/products")
             .then((res) => res.json())
             .then((json) => {
                 setProducts(json);
-                setFilteredProducts(json); // Set initial products
+                setFilteredProducts(json);
             })
             .finally(() => setLoading(false));
     }, []);
@@ -29,10 +35,20 @@ export function ProductContainer() {
     };
 
     return (
-        <div className="container">
-            <Filter onFilter={filterProducts} />
+        <div className="product-container">
+            <div className="filter-cart-row">
+                <Filter onFilter={filterProducts} />
+
+                <button className="cart-button" onClick={openCart}>
+                    Cart
+                    {totalQuantity > 0 && (
+                        <span className="cart-badge">{totalQuantity}</span>
+                    )}
+                </button>
+            </div>
+
             {loading ? (
-                <div className="spinner">Loading...</div>
+                <div className="spinner"></div>
             ) : (
                 <div className="allCards">
                     {filteredProducts.map((product) => (
