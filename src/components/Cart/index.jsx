@@ -26,8 +26,20 @@ export function Cart() {
                 <div key={product.id} className="cart-item">
                     <img src={product.image} alt={product.title} />
                     <div className="cart-info">
+                        <button
+                            className="remove-btn"
+                            onClick={() => removeFromCart(product.id)}
+                        >
+                            ✖
+                        </button>
+
+                        <p className="cart-category">{product.category}</p>
                         <p className="cart-title">{product.title}</p>
-                        <p>${product.price}</p>
+
+                        <p className="cart-price">
+                            ${(product.price * quantity).toFixed(2)}
+                        </p>
+
                         <div className="cart-quantity">
                             <button
                                 onClick={() => decreaseQuantity(product.id)}
@@ -42,14 +54,9 @@ export function Cart() {
                             </button>
                         </div>
                     </div>
-                    <button
-                        className="remove-btn"
-                        onClick={() => removeFromCart(product.id)}
-                    >
-                        ✖
-                    </button>
                 </div>
             ))}
+
             <div className="cart-footer">
                 <h3>Total: ${totalPrice.toFixed(2)}</h3>
                 <button className="clear-btn" onClick={clearCart}>

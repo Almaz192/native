@@ -31,7 +31,7 @@ function App() {
                         >
                             ✖
                         </button>
-                        <h1>Cart</h1>
+                        <h1 style={{ marginBottom: "40px" }}>Cart</h1>
                         <Cart />
                     </div>
                 </>
